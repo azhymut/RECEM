@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravador e Transcritor IA</title>
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1 class="app-title">REC IA</h1>
+        <button id="menuButton" class="icon-button" aria-label="Menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"></path></svg>
+        </button>
+    </header>
+
+    <main class="screen">
+        <section class="display" id="displayArea">
+            <canvas id="waveCanvas" class="wave-canvas" aria-hidden="true"></canvas>
+            <div id="transcriptView" class="transcript-view hidden">
+                <button id="copyTopRight" class="icon-button copy-top" title="Copiar texto">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 2h11a1 1 0 0 1 1 1v13h-2V4H8V2zm-3 4h11a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm1 2v11h9V8H6z"></path></svg>
+                </button>
+                <div class="transcript-scroll"><p id="liveTranscriptText"></p></div>
+                <audio id="player" class="player" controls></audio>
+            </div>
+        </section>
+
+        <div class="bottom-controls">
+            <span id="status" class="status idle">Pronto</span>
+            <button id="recordButton" class="record-btn" aria-label="Gravar"></button>
+        </div>
+    </main>
+
+    <aside id="menuPanel" class="menu-panel hidden" role="dialog" aria-modal="true">
+        <div class="menu-content">
+            <header class="menu-header">
+                <h2>Configurações</h2>
+                <button id="closeMenu" class="icon-button" aria-label="Fechar">
+                    <svg viewBox="0 0 24 24"><path d="M18.3 5.71L12 12.01 5.7 5.7 4.29 7.11 10.59 13.4 4.29 19.7 5.7 21.11 12 14.81 18.3 21.11 19.71 19.7 13.41 13.4 19.71 7.11z"/></svg>
+                </button>
+            </header>
+
+            <div class="menu-section">
+                <label for="micSelect">Microfone</label>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <select id="micSelect"><option>Detectando...</option></select>
+                    <button id="refreshMics" class="ghost" title="Atualizar lista">Atualizar</button>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <label for="languageSelect">Linguagem da transcrição</label>
+                <select id="languageSelect">
+                    <option value="auto">Detectar automaticamente</option>
+                    <option value="pt">Português</option>
+                    <option value="en">Inglês</option>
+                    <option value="es">Espanhol</option>
+                    <option value="fr">Francês</option>
+                </select>
+            </div>
+
+            <div class="menu-section">
+                <label class="switch-row">
+                    <input type="checkbox" id="darkModeToggle" />
+                    <span>Fundo negro (modo escuro)</span>
+                </label>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-header">
+                    <h3>Transcrições antigas</h3>
+                    <button id="clearAll" class="ghost" title="Remover todas">Limpar tudo</button>
+                </div>
+                <p class="hint">Guardadas no dispositivo. Toque para abrir.</p>
+                <ul id="historyList" class="history-list"></ul>
+            </div>
+        </div>
+    </aside>
+
+    <template id="historyItemTemplate">
+        <li class="history-item">
+            <button class="history-open">
+                <span class="history-title"></span>
+                <span class="history-meta"></span>
+            </button>
+        </li>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.13.0/dist/transformers.min.js" integrity="sha384-ohBBtSq4GUy9P9uPj+3zPPRj9YMQ+0uD8Hj6FMbqyBFQ38gLis0pPXr8E8dZJ0Pg" crossorigin="anonymous"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
